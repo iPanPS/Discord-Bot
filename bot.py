@@ -89,4 +89,30 @@ async def duck(ctx):
     image_url = get_meme_image_url()
     await ctx.send(image_url)
 
+organik = [
+     'daun',
+     'sisa makanan',
+     'sayur atau buah busuk',
+     'ranting pohon',
+     'bangkai hewan',
+]
+anorganik = [
+     'plastik',
+     'ban bekas',
+     'botol plastik',
+     'kaca',
+     'minyak goreng'
+]
+
+@bot.command()
+async def cek_sampah(ctx):
+     await ctx.send('ketik sampah yang ingin diketahui :')
+     msg = await bot.wait_for("message")
+     if msg.content in organik:
+          await ctx.send(f'buanglah **{msg.content}** di tempat sampah **organik**')
+     elif msg.content in anorganik:
+          await ctx.send(f'buanglah **{msg.content}** di tempat sampah **anorganik**')
+     else:
+          return await ctx.send(f'**{msg.content}** belum masuk daftar sampah')
+
 bot.run("token")
