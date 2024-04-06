@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 import random
-
+import os
+import requests
 description = '''An example bot to showcase the discord.ext.commands extension
 module.'''
 
@@ -53,5 +54,39 @@ async def repeat(ctx, times: int, content='repeating...'):
     """Repeats a message multiple times."""
     for i in range(times):
         await ctx.send(content)
+
+@bot.command()
+async def meme(ctx):
+    img_name = random.choice(os.listdir('images'))
+    with open(f'images/{img_name}','rb') as f:
+        # Mari simpan file perpustakaan/library Discord yang dikonversi dalam variabel ini!
+                    picture = discord.File(f)
+   # Kita kemudian dapat mengirim file ini sebagai tolok ukur!
+    await ctx.send(file=picture)
+    
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('duck')
+async def duck(ctx):
+    '''Setelah kita memanggil perintah bebek (duck), program akan memanggil fungsi get_duck_image_url'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+def get_meme_image_url():    
+    url = 'https://meme-api.com/gimme'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('random-meme')
+async def duck(ctx):
+    image_url = get_meme_image_url()
+    await ctx.send(image_url)
 
 bot.run("token")
